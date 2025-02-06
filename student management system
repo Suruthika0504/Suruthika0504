@@ -1,0 +1,23 @@
+import java.sql.*;
+
+public class StudentDB {
+    public static void main(String[] args) {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/school", "root", "password");
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS students (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), age INT)");
+
+            String sql = "INSERT INTO students (name, age) VALUES ('John Doe', 20)";
+            stmt.executeUpdate(sql);
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM students");
+            while (rs.next()) {
+                System.out.println(rs.getInt("id") + " " + rs.getString("name") + " " + rs.getInt("age"));
+            }
+
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
